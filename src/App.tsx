@@ -299,11 +299,6 @@ const App = () => {
                     console.log("User selected folder:", sel.path);
                     setSelectedFolder(sel.path);
                     setIsVideoFile(false);
-
-                    // Prompt for results folder
-                    setTimeout(() => {
-                        handleSelectResultsFolder();
-                    }, 100);
                 }
             });
         }
@@ -325,11 +320,6 @@ const App = () => {
                     const isVideo = videoExtensions.some(ext => sel.path.toLowerCase().endsWith(ext));
                     setIsVideoFile(isVideo);
                     console.log("Video file detected:", isVideo);
-
-                    // Prompt for results folder
-                    setTimeout(() => {
-                        handleSelectResultsFolder();
-                    }, 100);
                 }
             });
         }
@@ -447,14 +437,8 @@ const App = () => {
             resultsFolder: resultsFolder
         });
         
-        if (!selectedFolder || !pythonReady) return;
-        
-        if (!resultsFolder) {
-            console.log("No results folder selected, prompting user");
-            handleSelectResultsFolder();
-            return;
-        }
-        
+        if (!selectedFolder || !resultsFolder || !pythonReady) return;
+
         setIsStarting(true);
         setResults([]);
         setProgress(0);
@@ -687,9 +671,18 @@ const App = () => {
 
                     <div className="control-section">
                         {!isProcessing && !isStarting ? (
-                            <button 
+                            <button
                                 onClick={handleStartProcessing}
-                                disabled={!selectedFolder || !pythonReady}
+                                disabled={!selectedFolder || !resultsFolder || !pythonReady}
+                                title={
+                                    !pythonReady
+                                        ? "Waiting for the detection engine to start…"
+                                        : !selectedFolder
+                                            ? "Select an input file or folder to continue"
+                                            : !resultsFolder
+                                                ? "Select a results folder to continue"
+                                                : undefined
+                                }
                                 className="start-btn"
                             >
                                 Start Detection
