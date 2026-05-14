@@ -272,6 +272,7 @@ function createWindow() {
         const result = await dialog.showOpenDialog(mainWindow!, {
             properties: ["openFile"],
             filters: [
+                { name: 'Images and Videos', extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'mp4', 'avi', 'mov'] },
                 { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff'] },
                 { name: 'Videos', extensions: ['mp4', 'avi', 'mov'] },
                 { name: 'All Files', extensions: ['*'] }
