@@ -7,7 +7,7 @@ image: assets/images/dragon.png
 # TinyExplorer Detection App
 
 <div align="center">
-  <img src="assets/screenshots/app-main-interface.png" alt="TinyExplorer Detection App Interface" />
+  <img src="assets/screenshots/app-main-interface_updated.png" alt="TinyExplorer Detection App Interface" />
   <br>
   <em>Main application interface showing file selection, model options, and confidence threshold controls</em>
 </div>
