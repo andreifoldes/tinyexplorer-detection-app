@@ -17,15 +17,15 @@ Choose from multiple models:
 - **RetinaFace:** alternative architecture with facial landmarks; good speed/accuracy for feature localization. Note: available on Apple Silicon (arm64) macOS only. Source: https://github.com/serengil/retinaface.
 
 #### Hand Detection
-- **HandObject (100DOH baseline):**
-- **HandObject (100DOH TinyExplorer-tuned):**
+- **HandObject (100DOH baseline)**
+- **HandObject (100DOH TinyExplorer-tuned)**
 
 #### Automatic Speech Recognition
 Available in sizes from `tiny` to `large-v3-turbo`. Smaller sizes are faster but have lower accuracy; larger sizes are more accurate but computationally heavier.
 
-- **Whisper (OpenAI):**
-- **Faster Whisper:**
-- **WhisperX:**
+- **Whisper (OpenAI)**
+- **Faster Whisper**
+- **WhisperX**
   
 The app automatically downloads required model weights when needed.
 
