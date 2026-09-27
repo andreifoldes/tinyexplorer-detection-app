@@ -44,13 +44,15 @@ class TranscriptionTests(unittest.TestCase):
                 rows[0].keys(),
                 {
                     "id", "frame_idx", "filename", "mode", "start", "end",
-                    "label", "confidence", "model", "text", "language", "speaker",
+                    "label", "confidence", "model", "model_size", "text", "language", "speaker",
                 },
             )
             self.assertEqual(rows[0]["filename"], "sample.wav")
             self.assertEqual(rows[0]["mode"], "speech")
             self.assertEqual(rows[0]["label"], "speech")
             self.assertEqual(rows[0]["model"], "Faster Whisper")
+            # No size passed and no env override → the "base" default is recorded.
+            self.assertEqual(rows[0]["model_size"], "base")
             self.assertEqual(rows[0]["speaker"], "SPEAKER_00")
             # The segment's own confidence value must be preserved, not blanked.
             self.assertEqual(rows[0]["confidence"], "-0.42")
@@ -60,8 +62,9 @@ class TranscriptionTests(unittest.TestCase):
                 summary_rows = list(csv.DictReader(handle))
             self.assertEqual(summary_rows[0]["segments"], "1")
             self.assertEqual(summary_rows[0]["type"], "audio")
-            self.assertIn("[0.00-1.25] SPEAKER_00: hello world",
-                          (result_dirs[0] / "sample_transcript.txt").read_text())
+            transcript_txt = (result_dirs[0] / "sample_transcript.txt").read_text()
+            self.assertTrue(transcript_txt.startswith("# Model: Faster Whisper (base)\n"))
+            self.assertIn("[0.00-1.25] SPEAKER_00: hello world", transcript_txt)
 
     def test_writes_word_level_csv_with_speaker_fallback(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -76,7 +79,7 @@ class TranscriptionTests(unittest.TestCase):
         self.assertEqual(
             list(words[0].keys()),
             ["filename", "word", "start", "end", "speaker", "word_score",
-             "model", "segment_start", "segment_end", "segment_text"],
+             "model", "model_size", "segment_start", "segment_end", "segment_text"],
         )
         self.assertEqual(words[0]["filename"], "sample.wav")
         self.assertEqual(words[0]["word"], "hello")
@@ -302,7 +305,7 @@ class EndToEndCsvExportTests(unittest.TestCase):
     survive to the word CSVs, and a merged word-level detections file is
     written next to detections.csv."""
 
-    def _process(self, variant, modules, env=None):
+    def _process(self, variant, modules, env=None, size=None):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
         source = Path(temp.name) / "clips"
@@ -319,7 +322,7 @@ class EndToEndCsvExportTests(unittest.TestCase):
                 mock.patch.dict(os.environ, env_vars), \
                 mock.patch.object(TranscriptionProcessor, "_load_audio",
                                   staticmethod(lambda path: [0.0] * 16000)):
-            processor.process(str(source), variant, str(output))
+            processor.process(str(source), variant, str(output), size)
         return next(output.glob("transcription_results_*"))
 
     @staticmethod
@@ -342,6 +345,21 @@ class EndToEndCsvExportTests(unittest.TestCase):
         self.assertEqual([row["model"] for row in merged],
                          ["Whisper (OpenAI)", "Whisper (OpenAI)"])
         self.assertEqual(list(merged[0].keys()), list(words[0].keys()))
+
+    def test_selected_model_size_is_recorded_in_every_csv(self):
+        result_dir = self._process("Whisper (OpenAI)", {"whisper": _fake_whisper_module()},
+                                   size="small")
+        for name in ("a_transcript.csv", "detections.csv", "a_words.csv",
+                     "detections_words.csv", "summary.csv"):
+            rows = self._read(result_dir / name)
+            self.assertTrue(rows, name)
+            self.assertEqual({row["model_size"] for row in rows}, {"small"}, name)
+
+    def test_env_model_size_is_recorded_when_ui_sends_none(self):
+        result_dir = self._process("Whisper (OpenAI)", {"whisper": _fake_whisper_module()},
+                                   env={"TINYEXPLORER_WHISPER_MODEL": "tiny"})
+        self.assertEqual({row["model_size"] for row in self._read(result_dir / "summary.csv")},
+                         {"tiny"})
 
     def test_faster_whisper_exports_confidence_and_merged_words(self):
         result_dir = self._process("Faster Whisper",

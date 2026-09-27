@@ -442,10 +442,14 @@ class TranscriptionProcessor:
     def _hf_token() -> str:
         return os.environ.get("TINYEXPLORER_HF_TOKEN") or os.environ.get("HF_TOKEN") or ""
 
-    def _load_model(self, variant: str, size: Optional[str] = None) -> None:
+    @staticmethod
+    def _resolve_size(size: Optional[str]) -> str:
         # Explicit UI choice wins; the env var covers headless use; "base"
         # keeps old callers working.
-        model_name = size or os.environ.get("TINYEXPLORER_WHISPER_MODEL", "base")
+        return size or os.environ.get("TINYEXPLORER_WHISPER_MODEL", "base")
+
+    def _load_model(self, variant: str, size: Optional[str] = None) -> None:
+        model_name = self._resolve_size(size)
         self._emit("🎤 Loading transcription model '%s' (first use may download model weights)..." % model_name)
         self._loading_started = time.monotonic()
         self._loading_phase = "starting speech runtime"
@@ -713,13 +717,16 @@ class TranscriptionProcessor:
         output = os.path.join(results_folder, "transcription_results_%s" % timestamp)
         os.makedirs(output, exist_ok=True)
         files = self._files(source)
+        # Recorded next to the backend so outputs from accuracy comparisons
+        # across sizes stay distinguishable after the fact.
+        model_size = self._resolve_size(size)
         shared_headers = [
             "id", "frame_idx", "filename", "mode", "start", "end",
-            "label", "confidence", "model", "text", "language", "speaker",
+            "label", "confidence", "model", "model_size", "text", "language", "speaker",
         ]
         word_headers = [
             "filename", "word", "start", "end", "speaker", "word_score",
-            "model", "segment_start", "segment_end", "segment_text",
+            "model", "model_size", "segment_start", "segment_end", "segment_text",
         ]
         shared_rows: List[List[Any]] = []
         shared_word_rows: List[List[Any]] = []
@@ -761,18 +768,19 @@ class TranscriptionProcessor:
                                 segment_id, "", os.path.basename(path), "speech",
                                 segment["start"], segment["end"], "speech",
                                 "" if confidence is None else round(float(confidence), 3),
-                                variant,
+                                variant, model_size,
                                 segment["text"], language, segment.get("speaker", ""),
                             ]
                             writer.writerow(row)
                             file_rows.append(row)
                             shared_rows.append(row)
-                            self.results.append(dict(segment, audio_path=path, language=language, model=variant))
+                            self.results.append(dict(segment, audio_path=path, language=language, model=variant,
+                                                     model_size=model_size))
                 word_rows = [
                     [os.path.basename(path), word.get("word"), word.get("start"), word.get("end"),
                      word.get("speaker") or segment.get("speaker", ""),
                      round(float(word["probability"]), 3) if word.get("probability") is not None else "",
-                     variant, segment["start"], segment["end"], segment["text"]]
+                     variant, model_size, segment["start"], segment["end"], segment["text"]]
                     for segment in segments if segment["text"]
                     for word in segment.get("words") or []
                 ]
@@ -783,6 +791,7 @@ class TranscriptionProcessor:
                         writer.writerows(word_rows)
                     shared_word_rows.extend(word_rows)
                 with open(txt_path, "w", encoding="utf-8") as handle:
+                    handle.write("# Model: %s (%s)\n" % (variant, model_size))
                     for segment in segments:
                         if segment["text"]:
                             prefix = ("%s: " % segment["speaker"]) if segment.get("speaker") else ""
@@ -795,6 +804,7 @@ class TranscriptionProcessor:
                     max((row[5] for row in file_rows), default=0.0),
                     language,
                     variant,
+                    model_size,
                 ])
                 self.completion_callback({"status": "audio_completed", "progress_percent": (index + 1) / len(files) * 100,
                                           "audio_index": index + 1, "total_audio": len(files), "audio_path": path}) if self.completion_callback else None
@@ -813,7 +823,7 @@ class TranscriptionProcessor:
                     writer.writerows(shared_word_rows)
             with open(os.path.join(output, "summary.csv"), "w", newline="", encoding="utf-8") as handle:
                 writer = csv.writer(handle)
-                writer.writerow(["path", "type", "segments", "duration", "language", "model"])
+                writer.writerow(["path", "type", "segments", "duration", "language", "model", "model_size"])
                 writer.writerows(summary_rows)
             self._emit("✅ Transcription complete. Results saved to: %s" % output)
             if self.completion_callback:
