@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/dragon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -321,6 +321,25 @@
   
   
     <li class="md-tabs__item">
+      <a href="../performance/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Performance
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
       <a href="../troubleshooting/" class="md-tabs__link">
         
   
@@ -560,6 +579,39 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#face-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Face Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hand-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hand Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-speech-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Speech Recognition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#model-sources" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -576,10 +628,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sampling-rate" class="md-nav__link">
+  <a href="#sampling-rate-for-face-and-hand-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sampling Rate
+        Sampling Rate (for face and hand detection)
       
     </span>
   </a>
@@ -598,10 +650,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#face-recognition-process" class="md-nav__link">
+  <a href="#pipeline-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Face Recognition Process
+        Pipeline details
       
     </span>
   </a>
@@ -691,6 +743,33 @@
     
   
     Advanced Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
   
 
     
@@ -834,6 +913,39 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#face-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Face Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hand-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hand Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-speech-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Speech Recognition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#model-sources" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -850,10 +962,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sampling-rate" class="md-nav__link">
+  <a href="#sampling-rate-for-face-and-hand-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sampling Rate
+        Sampling Rate (for face and hand detection)
       
     </span>
   </a>
@@ -872,10 +984,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#face-recognition-process" class="md-nav__link">
+  <a href="#pipeline-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Face Recognition Process
+        Pipeline details
       
     </span>
   </a>
@@ -942,23 +1054,40 @@
 <li>Browse and select entire folders containing multiple images and videos</li>
 </ul>
 <h2 id="model-selection">Model Selection<a class="headerlink" href="#model-selection" title="Permanent link">&para;</a></h2>
-<p>Choose from multiple face detection models:</p>
+<p>Choose from multiple models:</p>
+<h4 id="face-detection">Face Detection<a class="headerlink" href="#face-detection" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>YOLOv8n-face (Nano):</strong> fastest inference, smallest size (~2.7 MB); lower accuracy; ideal for real‑time or limited resources.</li>
+<li><strong>YOLOv8n-face (Nano):</strong> fastest inference, smallest size (~2.7 MB); lower accuracy; ideal for real-time or limited resources.</li>
 <li><strong>YOLOv8m-face (Medium):</strong> balanced speed and accuracy (~27.3 MB); solid default for most tasks.</li>
 <li><strong>YOLOv8l-face (Large):</strong> highest accuracy within v8 (~59.2 MB); slower inference; best for high precision.</li>
-<li><strong>YOLOv11m-face (Medium):</strong> newer generation with improved accuracy/speed trade‑offs; good general‑purpose choice on modern hardware.</li>
+<li><strong>YOLOv11m-face (Medium):</strong> newer generation with improved accuracy/speed trade-off; good general-purpose choice on modern hardware.</li>
 <li><strong>YOLOv11l-face (Large):</strong> higher accuracy variant; increased compute and memory cost.</li>
 <li><strong>YOLOv12l-face (Large):</strong> latest large model; highest accuracy and resource use; recommended for offline batch processing.</li>
-<li><strong>RetinaFace:</strong> alternative architecture with facial landmarks; good speed/accuracy for feature localization. Note: available on Apple Silicon (arm64) macOS only. Source: <a href="https://github.com/serengil/retinaface">serengil/retinaface</a>.</li>
+<li><strong>RetinaFace:</strong> alternative architecture with facial landmarks; good speed/accuracy for feature localization. Note: available on Apple Silicon (arm64) macOS only. Source: https://github.com/serengil/retinaface.</li>
 </ul>
-<p>The app automatically downloads required model weights when needed.</p>
+<h4 id="hand-detection">Hand Detection<a class="headerlink" href="#hand-detection" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>HandObject (100DOH baseline)</strong></li>
+<li><strong>HandObject (100DOH TinyExplorer-tuned)</strong></li>
+</ul>
+<h4 id="automatic-speech-recognition">Automatic Speech Recognition<a class="headerlink" href="#automatic-speech-recognition" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Whisper (OpenAI)</strong></li>
+<li><strong>Faster Whisper</strong></li>
+<li><strong>WhisperX</strong>
+Available in sizes from <code>tiny</code> to <code>large-v3-turbo</code>. Smaller sizes are faster but have lower accuracy; larger sizes are more accurate but computationally heavier.</li>
+</ul>
 <h3 id="model-sources">Model Sources<a class="headerlink" href="#model-sources" title="Permanent link">&para;</a></h3>
 <ul>
 <li>YOLO face weights: <a href="https://github.com/cardiff-babylab/tinyexplorer-detection-app/releases/tag/v1.0.0-models">cardiff-babylab/tinyexplorer-detection-app releases</a> (originally from <a href="https://github.com/akanametov/yolo-face">akanametov/yolo-face</a>)</li>
 <li>RetinaFace implementation: <a href="https://github.com/serengil/retinaface">serengil/retinaface</a></li>
+<li>Hand detection weights: <a href="https://github.com/cardiff-babylab/tinyexplorer-detection-app/releases/tag/handobj-weights-v1">cardiff-babylab/tinyexplorer-detection-app releases</a> (HandObject / 100DOH Faster R‑CNN, originally from <a href="https://github.com/ddshan/hand_object_detector">ddshan/hand_object_detector</a>)</li>
+<li>Whisper (OpenAI): <a href="https://github.com/openai/whisper">openai/whisper</a></li>
+<li>Faster Whisper: <a href="https://github.com/SYSTRAN/faster-whisper">SYSTRAN/faster-whisper</a></li>
+<li>WhisperX: <a href="https://github.com/m-bain/whisperx">m-bain/whisperx</a></li>
 </ul>
-<h2 id="sampling-rate">Sampling Rate<a class="headerlink" href="#sampling-rate" title="Permanent link">&para;</a></h2>
+<p>The app automatically downloads required model weights when needed.</p>
+<h2 id="sampling-rate-for-face-and-hand-detection">Sampling Rate (for face and hand detection)<a class="headerlink" href="#sampling-rate-for-face-and-hand-detection" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Current sampling rate of 1 frame per second (1fps)</li>
 <li>Coming soon: adjustable slider for sampling rate</li>
@@ -968,9 +1097,9 @@
 <li>Adjustable slider from 0.0 to 1.0</li>
 <li>Default confidence values tailored to each model</li>
 </ul>
-<h2 id="face-recognition-process">Face Recognition Process<a class="headerlink" href="#face-recognition-process" title="Permanent link">&para;</a></h2>
+<h2 id="pipeline-details">Pipeline details<a class="headerlink" href="#pipeline-details" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Works with images and videos</li>
+<li>Face and hand detection works with images and videos</li>
 <li>Batch processing for multiple files in a folder</li>
 <li>Real-time progress bar and percentage display</li>
 <li>Detailed logging of the recognition process</li>
@@ -1055,7 +1184,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
