@@ -7,21 +7,25 @@
 ## Model Selection
 Choose from multiple models:
 
-- **Face Detection**
-  - **YOLOv8n-face (Nano):** fastest inference, smallest size (~2.7 MB); lower accuracy; ideal for real‑time or limited resources.
-  - **YOLOv8m-face (Medium):** balanced speed and accuracy (~27.3 MB); solid default for most tasks.
-  - **YOLOv8l-face (Large):** highest accuracy within v8 (~59.2 MB); slower inference; best for high precision.
-  - **YOLOv11m-face (Medium):** newer generation with improved accuracy/speed trade‑offs; good general‑purpose choice on modern hardware.
-  - **YOLOv11l-face (Large):** higher accuracy variant; increased compute and memory cost.
-  - **YOLOv12l-face (Large):** latest large model; highest accuracy and resource use; recommended for offline batch processing.
-  - **RetinaFace:** alternative architecture with facial landmarks; good speed/accuracy for feature localization. Note: available on Apple Silicon (arm64) macOS only. Source: [serengil/retinaface](https://github.com/serengil/retinaface).
-- **Hand detection**
-  - **HandObject (100DOH baseline):** 
-  - **HandObject (100DOH TinyExplorer-tuned):**
-- **Automatic speech recognition**: available in sizes from tiny to large-v3-turbo (smaller sizes are faster but have lower accuracy; larger sizes are more accurate, but computationally heavy)
-  - **Whisper (OpenAI):** 
-  - **Faster Whisper:**
-  - **WhisperX:**
+#### Face Detection
+- **YOLOv8n-face (Nano):** fastest inference, smallest size (~2.7 MB); lower accuracy; ideal for real-time or limited resources.
+- **YOLOv8m-face (Medium):** balanced speed and accuracy (~27.3 MB); solid default for most tasks.
+- **YOLOv8l-face (Large):** highest accuracy within v8 (~59.2 MB); slower inference; best for high precision.
+- **YOLOv11m-face (Medium):** newer generation with improved accuracy/speed trade-off; good general-purpose choice on modern hardware.
+- **YOLOv11l-face (Large):** higher accuracy variant; increased compute and memory cost.
+- **YOLOv12l-face (Large):** latest large model; highest accuracy and resource use; recommended for offline batch processing.
+- **RetinaFace:** alternative architecture with facial landmarks; good speed/accuracy for feature localization. Note: available on Apple Silicon (arm64) macOS only. Source: https://github.com/serengil/retinaface.
+
+#### Hand Detection
+- **HandObject (100DOH baseline):**
+- **HandObject (100DOH TinyExplorer-tuned):**
+
+#### Automatic Speech Recognition
+Available in sizes from `tiny` to `large-v3-turbo`. Smaller sizes are faster but have lower accuracy; larger sizes are more accurate but computationally heavier.
+
+- **Whisper (OpenAI):**
+- **Faster Whisper:**
+- **WhisperX:**
   
 The app automatically downloads required model weights when needed.
 
