@@ -21,13 +21,10 @@ Choose from multiple models:
 - **HandObject (100DOH TinyExplorer-tuned)**
 
 #### Automatic Speech Recognition
-Available in sizes from `tiny` to `large-v3-turbo`. Smaller sizes are faster but have lower accuracy; larger sizes are more accurate but computationally heavier.
-
 - **Whisper (OpenAI)**
 - **Faster Whisper**
 - **WhisperX**
-  
-The app automatically downloads required model weights when needed.
+Available in sizes from `tiny` to `large-v3-turbo`. Smaller sizes are faster but have lower accuracy; larger sizes are more accurate but computationally heavier.
 
 ### Model Sources
 - YOLO face weights: [cardiff-babylab/tinyexplorer-detection-app releases](https://github.com/cardiff-babylab/tinyexplorer-detection-app/releases/tag/v1.0.0-models) (originally from [akanametov/yolo-face](https://github.com/akanametov/yolo-face))
@@ -36,6 +33,9 @@ The app automatically downloads required model weights when needed.
 - Whisper (OpenAI): [openai/whisper](https://github.com/openai/whisper)
 - Faster Whisper: [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper)
 - WhisperX: [m-bain/whisperx](https://github.com/m-bain/whisperx)
+
+The app automatically downloads required model weights when needed.
+
 
 ## Sampling Rate (for face and hand detection)
 - Current sampling rate of 1 frame per second (1fps)
