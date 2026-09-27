@@ -91,6 +91,7 @@
     - **label** – detected label (e.g., `speech`)
     - **confidence** – model confidence/log-probability score for the segment
     - **model** – transcription model used (e.g. `Whisper (OpenAI)`)
+    - **model_size** – Whisper model size used (e.g. `tiny`, `base`, `small`, `medium`, `large-v3`, `turbo`), as chosen in the size dropdown
     - **text** – transcribed text for the segment
     - **language** – detected or specified language code (e.g. `en`)
     - **speaker** – speaker label, if speaker diarization was enabled (blank otherwise)
@@ -108,6 +109,8 @@
     - **start**, **end** – start and end time of the word, in seconds
     - **speaker** – speaker label, if diarization was enabled (blank otherwise)
     - **word_score** – model confidence score for the individual word
+    - **model** – transcription model used (e.g. `Whisper (OpenAI)`)
+    - **model_size** – Whisper model size used (e.g. `tiny`, `base`, `small`, `medium`, `large-v3`, `turbo`), as chosen in the size dropdown
     - **segment_start**, **segment_end** – start and end time of the parent segment the word belongs to
     - **segment_text** – full text of the parent segment, for cross-reference with `detections.csv`
 
@@ -121,6 +124,7 @@
     - **duration** – total duration of the file, in seconds
     - **language** – detected or specified language code
     - **model** – transcription model used
+    - **model_size** – Whisper model size used (e.g. `tiny`, `base`, `small`, `medium`, `large-v3`, `turbo`), as chosen in the size dropdown
 
     #### Folder Mode
 
@@ -132,7 +136,7 @@
 
     - `[filename]_transcript.csv` – same columns as `detections.csv`, scoped to that file only
     - `[filename]_words.csv` – same columns as `detections_words.csv`, scoped to that file only
-    - `[filename]_transcript.txt` – A human-readable transcript with one line per detected segment, formatted as:
+    - `[filename]_transcript.txt` – A human-readable transcript. The first line records the model and size (e.g. `# Model: Faster Whisper (small)`), followed by one line per detected segment, formatted as:
       
       [start-end] Segment text
       **start**, **end** – segment timestamps in seconds, matching `detections.csv` 
